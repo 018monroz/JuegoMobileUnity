@@ -30,10 +30,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(horizontalInput+"<--");
+        //horizontalInput = Input.acceleration.x;
+        horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
-        if (jumpable && Input.GetKeyDown(KeyCode.Space))
+        if (jumpable && body.velocity.y <= 0)
         {
             body.AddForce(new Vector2(0, jumpforce), ForceMode2D.Impulse);
             jumpable = false;
