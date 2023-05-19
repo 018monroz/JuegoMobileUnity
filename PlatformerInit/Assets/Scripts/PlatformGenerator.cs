@@ -20,7 +20,6 @@ public class PlatformGenerator : MonoBehaviour
         float verticalPos= Random.Range(inferior.position.y + 0.2f, superior.position.y);
         GameObject plataforma = GeneratePlatform(new Vector3(horizontalPos, verticalPos));
         lastHeightPos = plataforma.transform.position.y + generatorOffset;
-        print(superior.position.y - inferior.position.y);
         StartCoroutine(GeneratePlatforms());
     }
 
