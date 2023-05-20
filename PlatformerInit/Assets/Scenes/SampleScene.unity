@@ -1045,8 +1045,11 @@ MonoBehaviour:
   superior: {fileID: 2038327121}
   inferior: {fileID: 414668811}
   platformPrefab: {fileID: 3251731474661818242, guid: faa87215774df644f9eb04fc5035c8d4, type: 3}
+  obstaclePrefab: {fileID: 8224954005543654000, guid: 5dcaac1b0ca0c2941b2bbbfea92bf791, type: 3}
+  trampolinePrefab: {fileID: 3251731474661818242, guid: 5ee3d43faedbebd4dbf2d336eb83f5dd, type: 3}
   isInfinite: 0
   generatorOffset: 0.3
+  obstacleGeneratorOffset: 0.7
 --- !u!1 &946603234
 GameObject:
   m_ObjectHideFlags: 0
