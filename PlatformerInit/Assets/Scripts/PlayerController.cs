@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D body;
     bool jumpable;
+    bool isTrampoline;
     [SerializeField] float jumpforce = 20;
     [SerializeField] float speed = 1;
     [SerializeField] Camera cam;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         jumpable = false;
+        isTrampoline = false;
     }
 
     // Update is called once per frame
@@ -38,6 +40,11 @@ public class PlayerController : MonoBehaviour
 
         if (jumpable && body.velocity.y <= 0)
         {
+            if (isTrampoline)
+            {
+                body.AddForce(new Vector2(0, jumpforce), ForceMode2D.Impulse);
+                isTrampoline = false;
+            }
             body.AddForce(new Vector2(0, jumpforce), ForceMode2D.Impulse);
             jumpable = false;
         }
@@ -54,7 +61,13 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground")) jumpable = true;
         if (collision.gameObject.CompareTag("Platform")) jumpable = true;
-        if(collision.gameObject.CompareTag("Obstacle")) Die();
+        if (collision.gameObject.CompareTag("Trampoline"))
+        {
+            jumpable = true;
+            isTrampoline = true;
+        }
+        
+        if (collision.gameObject.CompareTag("Obstacle") && body.velocity.y <= 0) Die();
     }
 
     private void Die()
