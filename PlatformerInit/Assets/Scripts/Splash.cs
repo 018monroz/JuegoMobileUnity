@@ -17,10 +17,15 @@ public class Splash : MonoBehaviour
     void Update()
     {
         end = Time.timeAsDouble;
-        if(end-init > 5)
+        if(end-init > 30)
         {
-            SceneManager.CreateScene("MainMenu");
-            SceneManager.LoadScene("MainMenu");
+            JumpScene();
         }
+    }
+
+    public void JumpScene()
+    {
+        SceneManager.CreateScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 }

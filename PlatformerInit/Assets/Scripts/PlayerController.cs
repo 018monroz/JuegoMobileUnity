@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed = 1;
     [SerializeField] Camera cam;
     public float horizontalInput = 0;
+
+    private Animator animator;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -29,19 +32,27 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         jumpable = false;
         isTrampoline = false;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //horizontalInput = Input.acceleration.x;
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.acceleration.x;
+
+        //Para testeo en pc
+        //horizontalInput = Input.GetAxis("Horizontal");
+
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+
+        //Animación de salto si jumpable es true
+        animator.SetBool("Jump", jumpable);
 
         if (jumpable && body.velocity.y <= 0)
         {
             if (isTrampoline)
             {
+                //Aplica la fuerza una vez más
                 body.AddForce(new Vector2(0, jumpforce), ForceMode2D.Impulse);
                 isTrampoline = false;
             }
@@ -49,6 +60,7 @@ public class PlayerController : MonoBehaviour
             jumpable = false;
         }
 
+        //Si el body sale de la camara, muere
         Vector3 screenPos = cam.WorldToViewportPoint(transform.position);
         bool isOnScreen = screenPos.y > 0 && screenPos.y < 1 && screenPos.x < 1 && screenPos.x > 0;
         if (!isOnScreen)
@@ -59,6 +71,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Validaciones de colisión
         if (collision.gameObject.CompareTag("Ground")) jumpable = true;
         if (collision.gameObject.CompareTag("Platform")) jumpable = true;
         if (collision.gameObject.CompareTag("Trampoline"))
